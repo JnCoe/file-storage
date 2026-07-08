@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=1240" name="viewport"/>
+<title>Buscamos piso — Jonas & Juanjo</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Montserrat:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root {
+        --ink: #1a1a1a;
+        --ink-soft: #444;
+        --ink-mute: #6b6b6b;
+        --rule: #d9d9d9;
+        --accent: #8d4b00;
+        --accent-soft: #f4ece2;
+        --paper: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+        margin: 0;
+        padding: 0;
+        background: #e4e4e4;
+        font-family: 'Inter', sans-serif;
+        color: var(--ink);
+    }
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .screen-frame {
+        padding: 32px 0;
+        display: flex;
+        justify-content: center;
+    }
+    /* A4 portrait canvas: 1240 x 1754 (matches ~150 DPI). Scaled to 210x297 mm on print. */
+    .sheet {
+        width: 1240px;
+        height: 1754px;
+        background: var(--paper);
+        box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+        position: relative;
+        overflow: hidden;
+        padding: 90px 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+    /* --- Header --- */
+    .header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 40px;
+        padding-bottom: 32px;
+        border-bottom: 3px solid var(--ink);
+    }
+    .header .titles h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 62px;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin: 0;
+        color: var(--ink);
+    }
+    .header .titles .kicker {
+        font-family: 'Inter', sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--accent);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+    .header .titles .subhead {
+        font-size: 24px;
+        color: var(--ink-soft);
+        margin-top: 14px;
+        line-height: 1.4;
+        max-width: 640px;
+    }
+    .header .who {
+        text-align: right;
+        min-width: 260px;
+    }
+    .header .who .names {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 1.15;
+    }
+    .header .who .duration {
+        font-size: 18px;
+        color: var(--ink-mute);
+        margin-top: 8px;
+    }
+    /* --- Intro --- */
+    .intro {
+        font-size: 22px;
+        line-height: 1.55;
+        color: var(--ink-soft);
+    }
+    .intro strong { color: var(--ink); font-weight: 600; }
+    /* --- Section shared --- */
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 18px;
+    }
+    .section-title::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--rule);
+    }
+    /* --- Profiles --- */
+    .profiles {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+    .profile {
+        border: 1.5px solid var(--rule);
+        border-radius: 10px;
+        padding: 28px 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+    .profile .head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--rule);
+    }
+    .profile .head .name {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 25px;
+        font-weight: 800;
+        color: var(--ink);
+        line-height: 1;
+    }
+    .profile .head .age {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--ink-mute);
+    }
+    .profile ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .profile ul li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 18px;
+        line-height: 1.4;
+        color: var(--ink-soft);
+    }
+    .profile ul li .material-symbols-outlined {
+        font-size: 22px;
+        color: var(--ink-mute);
+        margin-top: 1px;
+        flex-shrink: 0;
+    }
+    .profile ul li strong { color: var(--ink); font-weight: 600; }
+    /* --- Highlight strip --- */
+    .highlights {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border-top: 1.5px solid var(--rule);
+        border-bottom: 1.5px solid var(--rule);
+        padding: 22px 0;
+    }
+    .highlights .item {
+        text-align: center;
+        padding: 0 16px;
+        border-right: 1px solid var(--rule);
+    }
+    .highlights .item:last-child { border-right: none; }
+    .highlights .item .num {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 34px;
+        font-weight: 800;
+        color: var(--accent);
+        line-height: 1;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .highlights .item .icon-num { line-height: 1; }
+    .no-icon {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .no-icon::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 46px;
+        height: 4px;
+        background: var(--accent);
+        border-radius: 2px;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        box-shadow: 0 0 0 3px var(--paper);
+    }
+    .highlights .item .label {
+        font-size: 15px;
+        color: var(--ink-soft);
+        margin-top: 8px;
+        line-height: 1.35;
+    }
+    /* --- What we're looking for --- */
+    .wishlist {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px 40px;
+    }
+    .wishlist .item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        font-size: 19px;
+        line-height: 1.4;
+        color: var(--ink-soft);
+    }
+    .wishlist .item .material-symbols-outlined {
+        font-size: 24px;
+        color: var(--accent);
+        margin-top: 1px;
+        flex-shrink: 0;
+    }
+    .wishlist .item strong { color: var(--ink); font-weight: 600; }
+    .flex-txt {
+        font-size: 17px;
+        color: var(--ink-mute);
+        font-style: italic;
+        margin-top: 14px;
+    }
+    /* --- Footer / Contact --- */
+    .footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+        padding: 26px 30px;
+        background: var(--accent-soft);
+        border-radius: 10px;
+        border: 1px solid rgba(141, 75, 0, 0.18);
+    }
+    .footer .contact {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+    .footer .contact .line {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 30px;
+        font-weight: 600;
+        color: var(--ink);
+    }
+    .footer .contact .line .material-symbols-outlined {
+        font-size: 28px;
+        color: var(--accent);
+    }
+    .footer .qr {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+    .footer .qr .qr-label {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+    }
+    .footer .qr .qr-box {
+        width: 140px;
+        height: 140px;
+        background: #fff;
+        border: 1px solid rgba(141, 75, 0, 0.25);
+        border-radius: 6px;
+        padding: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .footer .qr .qr-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    /* --- Print --- */
+    @page {
+        size: 210mm 297mm;
+        margin: 0;
+    }
+    @media print {
+        html, body {
+            background: #fff !important;
+            width: 210mm;
+            height: 297mm;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden;
+        }
+        .screen-frame {
+            padding: 0 !important;
+            margin: 0 !important;
+            display: block !important;
+            width: 210mm;
+            height: 297mm;
+            overflow: hidden;
+        }
+        .sheet {
+            width: 1240px !important;
+            height: 1754px !important;
+            transform: scale(calc(210mm / 1240px));
+            transform-origin: top left;
+            box-shadow: none !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            page-break-after: avoid;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="screen-frame">
+<main class="sheet">
+
+    <!-- Header -->
+    <header class="header">
+        <div class="titles">
+            <div class="kicker">Solicitud de alquiler · Barcelona</div>
+            <h1>Jonas &amp; Juanjo</h1>
+            <p class="subhead">Pareja estable con solvencia demostrable. <br>Juntos hace 3 años y conviviendo hace más de uno.</p>
+        </div>
+    </header>
+
+    <!-- Highlights -->
+    <section class="highlights">
+        <div class="item">
+            <div class="num">~6.000 €</div>
+            <div class="label">Ingresos netos<br/>conjuntos mensuales</div>
+        </div>
+        <div class="item">
+            <div class="num icon-num"><span class="no-icon"><span class="material-symbols-outlined" style="font-size: 40px; color: var(--accent); font-variation-settings: 'FILL' 1;">pets</span></span></div>
+            <div class="label">Sin mascotas</div>
+        </div>
+        <div class="item">
+            <div class="num icon-num"><span class="material-symbols-outlined" style="font-size: 40px; color: var(--accent); font-variation-settings: 'FILL' 1;">smoke_free</span></div>
+            <div class="label">No fumadores</div>
+        </div>
+    </section>
+
+    <!-- Profiles -->
+    <section>
+        <div class="section-title">Sobre nosotros</div>
+        <div class="profiles">
+            <div class="profile">
+                <div class="head">
+                    <div class="name">Jonas Coelho de Barros</div>
+                    <div class="age">31 años</div>
+                </div>
+                <ul>
+                    <li>
+                        <span class="material-symbols-outlined">work</span>
+                        <span><strong>Analista de Datos</strong> en Dow Jones<br/><span style="color: var(--ink-mute); font-size: 16px;">Contrato indefinido español a jornada completa</span></span>
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined">business</span>
+                        <span>Oficina en <strong>Av. Diagonal, 123</strong> — Poblenou</span>
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined">location_on</span>
+                        <span>En Barcelona desde <strong>enero de 2025</strong></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="profile">
+                <div class="head">
+                    <div class="name">Juan Jose Requena Lama</div>
+                    <div class="age">27 años</div>
+                </div>
+                <ul>
+                    <li>
+                        <span class="material-symbols-outlined">work</span>
+                        <span><strong>Ingeniero de Software</strong> en Glovo<br/><span style="color: var(--ink-mute); font-size: 16px;">Contrato indefinido español a jornada completa</span></span>
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined">business</span>
+                        <span>Oficina en <strong>Carrer de Llull, 108</strong> — Poblenou</span>
+                    </li>
+                    <li>
+                        <span class="material-symbols-outlined">location_on</span>
+                        <span>En Barcelona desde <strong>agosto de 2025</strong></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wishlist -->
+    <section>
+        <div class="section-title">Nuestro piso ideal</div>
+        <div class="wishlist">
+            <div class="item">
+                <span class="material-symbols-outlined">bed</span>
+                <span><strong>3 habitaciones</strong> con luz natural</span>
+            </div>
+            <div class="item">
+                <span class="material-symbols-outlined">bathtub</span>
+                <span><strong>2 baños</strong></span>
+            </div>
+            <div class="item">
+                <span class="material-symbols-outlined">chair</span>
+                <span>Piso <strong>amueblado</strong></span>
+            </div>
+            <div class="item">
+                <span class="material-symbols-outlined">euro</span>
+                <span>Hasta <strong>1.500 €/mes</strong></span>
+            </div>
+            <div class="item">
+                <span class="material-symbols-outlined">ac_unit</span>
+                <span><strong>Aire acondicionado</strong> o balcón para instalarlo</span>
+            </div>
+            <div class="item">
+                <span class="material-symbols-outlined">map</span>
+                <span>Zona <strong>Poblenou</strong>, Sant Martí, El Clot, Fort Pienc, Sagrada Família, Navas etc</span>
+            </div>
+        </div>
+        <p class="flex-txt">Somos flexibles: podemos hablar de condiciones si fuera necesario.</p>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer class="footer">
+        <div class="contact">
+            <div class="line">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">call</span>
+                <span>627 745 655 · Jonas</span>
+            </div>
+            <div class="line">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mail</span>
+                <span>jonasbcn@duck.com</span>
+            </div>
+            <div class="line" style="font-size: 17px; color: var(--ink-mute); font-weight: 500;">
+            </div>
+        </div>
+        <div class="qr">
+            <div class="qr-label">WhatsApp</div>
+            <div class="qr-box">
+                <img alt="QR WhatsApp" src="whatsapp.png"/>
+            </div>
+        </div>
+    </footer>
+
+</main>
+</div>
+</body>
+</html>
