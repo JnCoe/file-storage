@@ -1,0 +1,35 @@
+
+    var paths = [
+        '/react/projects/detail/dist/active/detail.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/1541.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/4965.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/1579.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/7793.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/7512.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/840.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/6202.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/1437.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/2187.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/2485.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/6792.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/7774.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/2836.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/8459.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/5369.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/5811.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/3810.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/1472.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/5412.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/1941.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/7231.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/1998.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/337.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/805.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/4977.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/3226.884f3d6a90e6e951151e.js','/react/projects/detail/dist/active/489.884f3d6a90e6e951151e.js'
+    ];
+
+    var baseURI = ('config' in window) ? window.config.staticsBaseUri : '';
+    var createScriptNodeByPath = function (path) {
+        var node = document.createElement('script');
+        node.src = path;
+        return node;
+    };
+
+    var createLinkNodeFromFile = function (file) {
+        var node = document.createElement('link');
+        node.rel = 'stylesheet';
+        node.type = 'text/css';
+        node.media = 'all';
+        node.href = file;
+        return node;
+    };
+
+    loadCssFile = function (file) {
+        var linkNode = createLinkNodeFromFile(file);
+        document.head.appendChild(linkNode);
+    };
+
+    paths.forEach(function (path) {
+        var scriptPath = baseURI + path;
+        document.body.appendChild(createScriptNodeByPath(scriptPath));
+    });
+
+    var cssFile = 'detail.884f3d6a90e6e951151e.css';
+    if(cssFile) {
+        loadCssFile(baseURI + '/react/projects/detail/dist/active/detail.884f3d6a90e6e951151e.css');
+    }
