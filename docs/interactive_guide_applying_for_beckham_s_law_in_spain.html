@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Interactiva: Ley Beckham</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #3d405b;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            background-color: #81b29a;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .tab-content {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+            max-height: 300px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        details[open] summary .arrow {
+            transform: rotate(90deg);
+        }
+        .arrow {
+            transition: transform 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Chosen Palette: Calm Neutral & Green Accent -->
+    <!-- Application Structure Plan: A tab-based SPA structure was chosen to logically segment the complex application process. This allows users to self-navigate based on their immediate needs. The flow is designed to be intuitive: 1. Welcome, 2. Eligibility Check, 3. High-level Process Phases, 4. Detailed Online Steps, 5. Field-by-Field Form Guide, 6. Document Hub, 7. Timeline Visualization, 8. FAQ. This non-linear, detailed approach enhances usability. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Eligibility Rules -> Goal: Self-Assessment -> Viz: Interactive HTML Checklist -> Interaction: User clicks checkboxes -> Justification: Active engagement is better for complex rules. -> Library/Method: HTML/JS.
+        - Report Info: Modelo 149 Form Fields -> Goal: Provide direct instructions -> Viz: Detailed list with field names and explanations -> Interaction: Reading and following -> Justification: A direct, field-by-field guide is the most practical way to explain form completion. -> Library/Method: HTML/CSS.
+        - Report Info: Key Deadlines -> Goal: Emphasize Time Constraints -> Viz: Chart.js Bar Chart -> Interaction: Hover tooltips -> Justification: A visual chart makes the 6-month deadline impactful. -> Library/Method: Chart.js.
+        - Report Info: Practical Tips -> Goal: Provide On-Demand Info -> Viz: Accordion/FAQ -> Interaction: User clicks questions -> Justification: Reduces clutter and allows users to pull info as needed. -> Library/Method: HTML <details> tag.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <div class="min-h-screen">
+        <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-10">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="text-center">
+                    <h1 class="text-3xl font-bold text-[#3d405b]">Guía Interactiva para la Ley Beckham</h1>
+                    <p class="mt-1 text-md text-[#6b7280]">Navega el proceso de solicitud del Régimen Especial para Trabajadores Desplazados.</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <nav id="nav-menu" class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
+                <button data-tab="home" class="nav-button font-medium py-2 px-4 rounded-lg bg-white shadow-sm">Inicio</button>
+                <button data-tab="eligibility" class="nav-button font-medium py-2 px-4 rounded-lg bg-white shadow-sm">Verificar Elegibilidad</button>
+                <button data-tab="process" class="nav-button font-medium py-2 px-4 rounded-lg bg-white shadow-sm">Fases del Proceso</button>
+                <button data-tab="online" class="nav-button font-medium py-2 px-4 rounded-lg bg-white shadow-sm">Proceso Online</button>
+                <button data-tab="form-guide" class="nav-button font-medium py-2 px-4 rounded-lg bg-white shadow-sm">Rellenar Modelo 149</button>
+                <button data-tab="documents" class="nav-button font-medium py-2 px-4 rounded-lg bg-white shadow-sm">Documentos</button>
+                <button data-tab="timeline" class="nav-button font-medium py-2 px-4 rounded-lg bg-white shadow-sm">Plazos Clave</button>
+                <button data-tab="faq" class="nav-button font-medium py-2 px-4 rounded-lg bg-white shadow-sm">Consejos Prácticos</button>
+            </nav>
+
+            <div id="tab-container" class="bg-white rounded-xl shadow-lg p-6 md:p-10">
+                
+                <div id="home" class="tab-content">
+                    <h2 class="text-2xl font-bold mb-4">Bienvenido/a a la Guía Interactiva de la Ley Beckham</h2>
+                    <p class="mb-4 text-gray-700">Esta herramienta está diseñada para desglosar el proceso de solicitud de la Ley Beckham (Régimen Especial para Trabajadores Desplazados) en pasos manejables y fáciles de entender. La Ley Beckham ofrece importantes ventajas fiscales a los trabajadores que se trasladan a España, pero el proceso de solicitud requiere una atención cuidadosa a los detalles y los plazos.</p>
+                    <p class="mb-6 text-gray-700">Utiliza las pestañas de navegación de arriba para explorar cada parte del proceso. Te recomendamos empezar por "Verificar Elegibilidad" para confirmar que cumples con los requisitos antes de continuar.</p>
+                    <div class="bg-[#e0f2f1] border-l-4 border-[#81b29a] p-4 rounded-r-lg">
+                        <p class="font-semibold text-[#3d405b]">Aviso Importante</p>
+                        <p class="text-sm text-[#3d405b]">Esta guía se basa en una investigación exhaustiva, pero no constituye asesoramiento legal o fiscal. Las leyes pueden cambiar. Verifica siempre la información con fuentes oficiales de la Agencia Tributaria o consulta a un profesional cualificado.</p>
+                    </div>
+                </div>
+
+                <div id="eligibility" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold mb-4">Verificador de Elegibilidad Interactivo</h2>
+                    <p class="mb-6 text-gray-700">Antes de empezar, es fundamental confirmar si cumples los requisitos. Marca las casillas que se apliquen a tu situación para hacer una autoevaluación rápida.</p>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="font-bold text-lg mb-3 text-[#3d405b]">Requisitos Fundamentales</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                                    <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-[#81b29a] focus:ring-[#81b29a]">
+                                    <span class="ml-3 text-gray-800">No he sido residente fiscal en España en los últimos 5 años fiscales.</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                                    <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-[#81b29a] focus:ring-[#81b29a]">
+                                    <span class="ml-3 text-gray-800">Mi traslado a España se debe a un motivo laboral válido.</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-bold text-lg mb-3 text-[#3d405b]">Motivo del Traslado (Elige al menos uno)</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                                    <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-[#81b29a] focus:ring-[#81b29a]">
+                                    <span class="ml-3 text-gray-800">Tengo un contrato de trabajo con una empresa española.</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                                    <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-[#81b29a] focus:ring-[#81b29a]">
+                                    <span class="ml-3 text-gray-800">Soy un trabajador remoto para una empresa extranjera.</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                                    <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-[#81b29a] focus:ring-[#81b29a]">
+                                    <span class="ml-3 text-gray-800">He sido nombrado administrador de una empresa española (con <25% de participación).</span>
+                                </label>
+                                 <label class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                                    <input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-[#81b29a] focus:ring-[#81b29a]">
+                                    <span class="ml-3 text-gray-800">Voy a realizar una actividad emprendedora de interés económico especial.</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-bold text-lg mb-3 text-[#e63946]">Criterios de Exclusión</h3>
+                            <p class="text-sm mb-2 text-gray-600">Asegúrate de que NO te encuentras en ninguna de estas situaciones:</p>
+                             <div class="space-y-2">
+                                <label class="flex items-center p-3 bg-red-50 rounded-lg">
+                                    <input type="checkbox" class="h-5 w-5 rounded border-gray-300">
+                                    <span class="ml-3 text-gray-800">Soy un deportista profesional.</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-red-50 rounded-lg">
+                                    <input type="checkbox" class="h-5 w-5 rounded border-gray-300">
+                                    <span class="ml-3 text-gray-800">Soy un trabajador autónomo (salvo las excepciones de emprendedor/profesional cualificado).</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="process" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold mb-6">Proceso de Solicitud: Fases Generales</h2>
+                    <p class="mb-4 text-gray-700">Aquí se describe la visión general del proceso. Para un tutorial detallado sobre cómo usar la web de la Agencia Tributaria y rellenar el formulario, ve a las siguientes pestañas.</p>
+                    <div class="relative">
+                        <div class="border-l-2 border-[#81b29a] absolute h-full top-0 left-5"></div>
+                        <div class="space-y-12">
+                            <div class="relative pl-12">
+                                <div class="absolute w-10 h-10 bg-[#81b29a] rounded-full text-white flex items-center justify-center -left-5 text-xl font-bold">1</div>
+                                <h3 class="text-xl font-semibold mb-2">Fase 1: La Fundación</h3>
+                                <p class="text-gray-600 mb-2">Acciones preliminares que debes completar antes de poder solicitar la ley.</p>
+                                <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                    <li>Obtener tu NIE (Número de Identificación de Extranjero).</li>
+                                    <li>Darte de alta en la Seguridad Social (lo hace tu empleador).</li>
+                                    <li>Conseguir un Certificado Digital o Cl@ve PIN (muy recomendado).</li>
+                                </ul>
+                            </div>
+                            <div class="relative pl-12">
+                                <div class="absolute w-10 h-10 bg-[#81b29a] rounded-full text-white flex items-center justify-center -left-5 text-xl font-bold">2</div>
+                                <h3 class="text-xl font-semibold mb-2">Fase 2: La Solicitud (Modelo 149)</h3>
+                                <p class="text-gray-600 mb-2">El núcleo del proceso: presentar tu solicitud a la Agencia Tributaria.</p>
+                                 <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                    <li>Reúne toda la documentación necesaria en formato PDF.</li>
+                                    <li>Sube los documentos a la Sede Electrónica de la Agencia Tributaria.</li>
+                                    <li>Rellena y presenta el Modelo 149 online, adjuntando la referencia de los documentos.</li>
+                                    <li>Guarda el justificante de presentación.</li>
+                                </ul>
+                            </div>
+                            <div class="relative pl-12">
+                                <div class="absolute w-10 h-10 bg-[#81b29a] rounded-full text-white flex items-center justify-center -left-5 text-xl font-bold">3</div>
+                                <h3 class="text-xl font-semibold mb-2">Fase 3: Post-Solicitud</h3>
+                                <p class="text-gray-600 mb-2">Qué esperar después de haber enviado tu solicitud.</p>
+                                 <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                    <li>Espera la resolución (puede tardar de 1 a 3 meses).</li>
+                                    <li>Una vez aprobado, entrega la carta de aceptación a tu empresa.</li>
+                                    <li>Recuerda presentar anualmente tu declaración de la renta con el Modelo 151.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="online" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold mb-6">Guía Detallada del Proceso Online</h2>
+                    <p class="mb-6 text-gray-700">Este es el paso a paso para presentar tu solicitud a través de la <a href="https://sede.agenciatributaria.gob.es/" target="_blank" class="text-[#81b29a] font-semibold hover:underline">Sede Electrónica de la Agencia Tributaria</a>. Necesitarás tu Certificado Digital o Cl@ve para acceder.</p>
+                    <div class="space-y-8">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-[#3d405b] text-white rounded-lg flex items-center justify-center text-xl font-bold">1</div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Paso 1: Aportar Documentación</h3>
+                                <p class="text-gray-600 mb-2">Antes de rellenar el Modelo 149, debes subir todos tus documentos de soporte. Este es el punto que más confunde a la gente.</p>
+                                <ul class="list-disc list-inside space-y-1 text-gray-700 pl-4">
+                                    <li>En la Sede Electrónica, busca "Modelo 149".</li>
+                                    <li>Selecciona el trámite llamado <strong>"Aportar documentación complementaria"</strong>.</li>
+                                    <li>Identifícate, introduce tu NIE y sube todos los PDFs requeridos (pasaporte, contrato, etc.).</li>
+                                    <li>Al finalizar, el sistema te dará un <strong>número de referencia</strong>. ¡Guárdalo! Es esencial para el siguiente paso.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-[#3d405b] text-white rounded-lg flex items-center justify-center text-xl font-bold">2</div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Paso 2: Presentar el Modelo 149</h3>
+                                <p class="text-gray-600 mb-2">Ahora que tus documentos están en el sistema, es hora de presentar la solicitud formal.</p>
+                                <ul class="list-disc list-inside space-y-1 text-gray-700 pl-4">
+                                    <li>Vuelve a la página del Modelo 149 y elige la opción de <strong>"Presentación"</strong> (o similar).</li>
+                                    <li>Rellena el formulario con tus datos personales.</li>
+                                    <li>Habrá una casilla para introducir el <strong>número de referencia</strong> que obtuviste en el Paso 1. Esto vincula tu formulario con los documentos.</li>
+                                    <li>Completa el resto de campos, indicando que optas por el régimen especial.</li>
+                                    <li>Firma y envía la solicitud digitalmente.</li>
+                                </ul>
+                            </div>
+                        </div>
+                         <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-[#3d405b] text-white rounded-lg flex items-center justify-center text-xl font-bold">3</div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Paso 3: Guardar el Justificante</h3>
+                                <p class="text-gray-600 mb-2">Una vez enviado, el sistema generará un PDF que es el justificante de tu presentación.</p>
+                                 <ul class="list-disc list-inside space-y-1 text-gray-700 pl-4">
+                                    <li>Descarga este PDF inmediatamente.</li>
+                                    <li>Guárdalo en un lugar seguro. Es tu prueba oficial de que has completado el trámite a tiempo.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="form-guide" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold mb-6">Guía Práctica para Rellenar el Modelo 149</h2>
+                    <p class="mb-6 text-gray-700">Esta es una guía campo por campo del formulario online. Los números de casilla pueden variar ligeramente, pero los conceptos son los mismos.</p>
+                    <div class="space-y-6">
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-2">1. Devengo (Accrual Period)</h3>
+                            <p><strong>Ejercicio de la opción:</strong> El año fiscal en el que estás solicitando el régimen. Por ejemplo, 2025.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-2">2. Datos del Contribuyente (Your Data)</h3>
+                            <p><strong>NIF (01):</strong> Introduce tu número NIE.</p>
+                            <p><strong>Apellidos (02) y Nombre (03):</strong> Tu nombre completo tal como aparece en tu pasaporte.</p>
+                            <p><strong>Domicilio Fiscal en España:</strong> Tu dirección completa en España.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-2">3. Datos del Representante (Representative's Data)</h3>
+                            <p class="text-gray-600">Si lo estás haciendo tú mismo, <strong>deja esta sección en blanco.</strong> Solo se rellena si un gestor o abogado lo presenta en tu nombre.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-2">4. Tipo de Comunicación (Type of Communication)</h3>
+                            <p class="mb-2 text-gray-600">Aquí le dices a Hacienda qué quieres hacer. Para una nueva solicitud, marca:</p>
+                            <p><strong>Opción por el régimen especial (Casilla 111):</strong> Marca esta casilla. Estás "optando" por entrar en el régimen.</p>
+                        </div>
+                         <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-2">5. Datos de la Comunicación de Opción (Details of your Option)</h3>
+                            <p><strong>Causa o motivo:</strong> Elige la opción que corresponda a tu situación (trabajador, administrador, teletrabajador, etc.).</p>
+                            <p><strong>Fecha de entrada en territorio español:</strong> La fecha en que llegaste a España.</p>
+                            <p><strong>Fecha de inicio de la actividad:</strong> La fecha que aparece en tu alta de la Seguridad Social. <strong>¡Esta fecha es la que inicia el plazo de 6 meses!</strong></p>
+                            <p><strong>País de residencia fiscal anterior:</strong> El país donde eras residente fiscal antes de mudarte a España.</p>
+                            <p><strong>Justificante de la documentación aportada:</strong> Aquí debes introducir el <strong>número de referencia</strong> que obtuviste al subir tus documentos en el primer paso del proceso online.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="documents" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold mb-6">Hub de Documentos Requeridos</h2>
+                    <p class="mb-6 text-gray-700">Asegúrate de tener copias digitales (PDF) de todos estos documentos antes de iniciar el proceso de solicitud online.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-2">📄 Pasaporte Completo</h3>
+                            <p class="text-sm text-gray-600">Copia de todas las páginas de tu pasaporte en vigor.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-2">🆔 Documento del NIE</h3>
+                            <p class="text-sm text-gray-600">El certificado oficial que acredita tu Número de Identificación de Extranjero.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-2">🗓️ Alta en la Seguridad Social</h3>
+                            <p class="text-sm text-gray-600">Documento que demuestra tu fecha de alta (Informe de Vida Laboral o similar).</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-2">📝 Contrato de Trabajo</h3>
+                            <p class="text-sm text-gray-600">Tu contrato firmado con la empresa española o extranjera.</p>
+                        </div>
+                         <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-2">✉️ Carta del Empleador</h3>
+                            <p class="text-sm text-gray-600">(Recomendado) Carta de tu empresa confirmando los detalles de tu traslado.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-lg mb-2">📜 Formulario Modelo 149</h3>
+                            <p class="text-sm text-gray-600">El propio formulario, que se rellena online durante el proceso de presentación.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="timeline" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold mb-4">Visualización de Plazos Clave</h2>
+                    <p class="mb-6 text-gray-700">Comprender los plazos es crucial. Cualquier retraso puede hacer que pierdas la oportunidad de acogerte a este régimen.</p>
+                    
+                    <div>
+                        <h3 class="font-semibold text-center mb-2">Ventana de Solicitud (Regla de Oro)</h3>
+                        <div class="chart-container">
+                            <canvas id="timelineChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-gray-600 mt-2">Tienes una ventana estricta de 6 meses desde tu fecha de alta en la Seguridad Social para presentar el Modelo 149.</p>
+                    </div>
+
+                    <div class="mt-12">
+                        <h3 class="font-semibold text-center mb-2">Tiempo de Espera de la Resolución</h3>
+                        <div class="flex justify-center items-center space-x-4 p-4 bg-blue-50 rounded-lg max-w-md mx-auto">
+                            <div class="text-4xl">⏳</div>
+                            <div>
+                                <p class="font-bold text-lg text-blue-800">1 a 3 meses</p>
+                                <p class="text-sm text-blue-700">Aunque la ley estipula 10 días, en la práctica la respuesta puede tardar varios meses.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="faq" class="tab-content hidden">
+                    <h2 class="text-2xl font-bold mb-6">Consejos Prácticos y Preguntas Frecuentes</h2>
+                    <p class="mb-6 text-gray-700">Aquí tienes algunos consejos basados en la experiencia de otras personas y respuestas a preguntas comunes.</p>
+                    <div class="space-y-4">
+                        <details class="group p-4 bg-gray-50 rounded-lg">
+                            <summary class="flex justify-between items-center font-medium cursor-pointer">
+                                <span>¿Es realmente estricto el plazo de 6 meses?</span>
+                                <span class="arrow transition-transform transform group-open:rotate-90">▶</span>
+                            </summary>
+                            <p class="text-gray-600 mt-3 pt-3 border-t">Sí, es absolutamente estricto y no prorrogable. No hay excepciones. Es el error más común y crítico. Fija una alerta en tu calendario para no olvidarlo.</p>
+                        </details>
+                        <details class="group p-4 bg-gray-50 rounded-lg">
+                            <summary class="flex justify-between items-center font-medium cursor-pointer">
+                                <span>¿Realmente necesito un Certificado Digital?</span>
+                                <span class="arrow transition-transform transform group-open:rotate-90">▶</span>
+                            </summary>
+                            <p class="text-gray-600 mt-3 pt-3 border-t">Aunque puedes hacerlo en persona, el consenso es unánime: obtén el certificado. Facilita este proceso y cualquier otra gestión futura con la administración española de forma exponencial.</p>
+                        </details>
+                        <details class="group p-4 bg-gray-50 rounded-lg">
+                            <summary class="flex justify-between items-center font-medium cursor-pointer">
+                                <span>Soy trabajador remoto, ¿necesito algo especial?</span>
+                                 <span class="arrow transition-transform transform group-open:rotate-90">▶</span>
+                            </summary>
+                            <p class="text-gray-600 mt-3 pt-3 border-t">Sí. Si vas a seguir cotizando a la seguridad social en tu país de origen, necesitarás un Certificado A1. Este documento demuestra que estás cubierto en otro país de la UE/EEE y deberás adjuntarlo a tu solicitud.</p>
+                        </details>
+                        <details class="group p-4 bg-gray-50 rounded-lg">
+                            <summary class="flex justify-between items-center font-medium cursor-pointer">
+                                <span>¿Qué pasa si mi contrato no es muy claro sobre mi lugar de trabajo?</span>
+                                 <span class="arrow transition-transform transform group-open:rotate-90">▶</span>
+                            </summary>
+                            <p class="text-gray-600 mt-3 pt-3 border-t">Para evitar retrasos o peticiones de información adicional (requerimientos), asegúrate de que tu contrato especifica claramente que tu puesto de trabajo está en España. La carta de apoyo de tu empleador es una excelente manera de reforzar este punto y evitar ambigüedades.</p>
+                        </details>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navMenu = document.getElementById('nav-menu');
+            const tabContainer = document.getElementById('tab-container');
+            const tabs = navMenu.querySelectorAll('[data-tab]');
+            const tabContents = tabContainer.querySelectorAll('.tab-content');
+
+            function showTab(tabId) {
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+                tabs.forEach(tab => {
+                    tab.classList.remove('active');
+                });
+
+                const contentToShow = document.getElementById(tabId);
+                const tabToActivate = navMenu.querySelector(`[data-tab="${tabId}"]`);
+                
+                if (contentToShow) {
+                    contentToShow.classList.remove('hidden');
+                }
+                if (tabToActivate) {
+                    tabToActivate.classList.add('active');
+                }
+            }
+            
+            navMenu.addEventListener('click', function (e) {
+                if (e.target.matches('[data-tab]')) {
+                    const tabId = e.target.dataset.tab;
+                    showTab(tabId);
+                }
+            });
+
+            let timelineChart;
+            function createChart() {
+                const timelineCtx = document.getElementById('timelineChart');
+                if (!timelineCtx) return;
+
+                if (timelineChart) {
+                    timelineChart.destroy();
+                }
+
+                timelineChart = new Chart(timelineCtx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Fecha de Alta en la Seguridad Social'],
+                        datasets: [{
+                            label: 'Ventana de Solicitud (Meses)',
+                            data: [6],
+                            backgroundColor: ['#81b29a'],
+                            borderColor: ['#6a9980'],
+                            borderWidth: 1,
+                            borderRadius: 5,
+                            borderSkipped: false,
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return ` Plazo: ${context.raw} meses para presentar la solicitud.`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 7,
+                                title: {
+                                    display: true,
+                                    text: 'Meses'
+                                }
+                            },
+                            y: {
+                               grid: {
+                                   display: false
+                               }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            const observer = new MutationObserver((mutationsList, obs) => {
+                for(const mutation of mutationsList) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        const timelineTab = document.getElementById('timeline');
+                         if (timelineTab && !timelineTab.classList.contains('hidden') && !timelineChart) {
+                            createChart();
+                        }
+                    }
+                }
+            });
+            
+            tabContents.forEach(tab => {
+                observer.observe(tab, { attributes: true });
+            });
+
+            showTab('home');
+        });
+    </script>
+</body>
+</html>
